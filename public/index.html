@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script src="/socket.io/socket.io.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+        }
+        #container {
+            margin: 0;
+            border: 0;
+        }
+    </style>
+</head>
+<body>
+    <iframe id="container"></iframe>
+</body>
+<script>
+    const socket = io();
+    const fullscreenwidth = window.screen.availWidth
+    const fullscreenheight = window.screen.availHeight
+    function sendScreenSize() {
+        let windowheight = window.innerHeight
+        let windowwidth = window.innerWidth
+        let windowX = window.screenX
+        let windowY = window.screenY
+        socket.emit('screensize', {height: windowheight, width: windowwidth, x: windowX, y: windowY})
+    };
+    // let screensize = setInterval(sendScreenSize, 250)
+    function setContent() {
+        let windowX = window.screen.screenX
+        let windowY = window.screenY
+        let windowheight = window.innerHeight
+        let windowwidth = window.innerWidth
+
+        let topmargin = (0 - screenY)
+        let leftmargin = (0 - 5 - screenX)
+
+        const body = document.body
+        const image = document.getElementById('container')
+        body.style.minHeight = window.innerHeight + 'px'
+        image.style.height = fullscreenheight + 'px'
+        image.style.width = fullscreenwidth + 'px'
+        body.style.marginTop = topmargin + 'px'
+        body.style.marginLeft = leftmargin + 'px'
+
+    }
+    socket.on('img', (data) => {
+        document.getElementById('container').src = data;
+    });
+    // content = setInterval(setContent, 0)
+        var oldX = window.screenX,
+        oldY = window.screenY;
+        let interval = setInterval(function(){
+        if(oldX != window.screenX || oldY != window.screenY){
+            setContent()
+        } else {
+        }
+        oldX = window.screenX;
+        oldY = window.screenY;
+        }, 0);
+    setContent();
+        </script>
+</html>
