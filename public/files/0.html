@@ -6,6 +6,7 @@
         body {
             margin: 0;
             font-size: 100px;
+            font-family: consolas;
         }
     </style>
     <meta charset="UTF-8">
@@ -13,6 +14,14 @@
     <title>Document</title>
 </head>
 <body>
-    hello
+    this is a message to [REDACTED]
+    <button onclick="window2()"></button>
 </body>
+<script>
+    const socket = io();
+    
+    function window2() {
+        socket.emit('window2')
+    }
+</script>
 </html>

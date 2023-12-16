@@ -8,16 +8,36 @@
             background-color: black;
             color: white;
             font-size: 100px;
+            padding-top: 22px;
+            font-family: consolas;
         }
+        #highlight {
+            background-color: #20C20E;
+            color: black;
+            background-image: url(lines.png);
+            animation: overlaymove 100s linear infinite;
+        }
+        #effect {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 100%;
+            background-image: url(lines.png);
+        }
+        @keyframes overlaymove {
+            from {background-position: 0% 0%;}
+            to {background-position: 0% 100%;}
+        }
+
     </style>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 </head>
 <body>
-    hello
+    <span id='text'>this is a message to <span id="highlight">[THE VOID]</span></span>
 </body>
 <script>
-    const socket = io();
 </script>
 </html>

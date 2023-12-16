@@ -21,19 +21,39 @@ const server = app.listen(900, () => {
 });
 
 const io = socketio(server)
+var mainwincounter = 0
 var imagenum = 0
 function dothething() {
-    if (imagenum == 0) {
-        imagenum = 1
+    if (mainwincounter == 0) {
+        mainwincounter = 1
+        imagenum = 0
         return imagenum
     } else {
-        imagenum = 0
+        imagenum = 1
         return imagenum
     }
 }
+var connectioncount = 0
 io.on('connection', (socket) => {
+    socket.on('index', () => {
+        connectioncount ++
+        console.log(connectioncount)
+        imagenum = dothething()
+        img = '/files/' + imagenum + '.html'
+        socket.emit('img', img)
+    })
     console.log(socket.id)
-    imagenum = dothething()
-    img = '/files/' + imagenum + '.html'
-    socket.emit('img', img)
+    socket.on('window2', () => {
+        io.sockets.emit('createwindow', 'index.html')
+    })
+    socket.on('disconnect', () => {
+        connectioncount --
+        if (connectioncount < 0) {
+            connectioncount = 0
+        }
+        if (connectioncount > 0) {} else {
+            mainwincounter = 0
+        }
+        console.log('disconnected')
+    })
 })
